@@ -1,23 +1,28 @@
---// Made By AdvanceFalling Team \\--
---// Under Development Still \\--
+-- dont know if it will work
 
-local place = workspace:GetChildren()	
-			local currentX = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.X
-			local currentY = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Y
-			local currentZ = game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame.Z
+local Players = game:GetService("Players")
+local Workspace = game:GetService("Workspace")
+local LocalPlayer = Players.LocalPlayer
+local HumanoidRootPart = LocalPlayer.Character.HumanoidRootPart
 
-for i,v in pairs(place) do	    
-  local vChildren = v:GetChildren()
-  for i,child in pairs(vChildren) do
-    if child.Name == "CoinContainer" then
-      if child.Coin_Server:FindFirstChild("Coin") ~= nil then
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = child.Coin_Server.Coin.CFrame
-      else
-        game.Players.LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(currentX, currentY, currentZ)
-      end
+local function collectCoins()
+    local currentCFrame = HumanoidRootPart.CFrame
+    local coinContainerName = "CoinContainer"
+    local coinName = "Coin"
+
+    for i, object in ipairs(Workspace:GetChildren()) do
+        if object:IsA("Model") and object:FindFirstChild(coinContainerName) then
+            local coin = object.CoinContainer:FindFirstChild("Coin_Server")
+            if coin and coin:FindFirstChild(coinName) then
+                HumanoidRootPart.CFrame = coin.Coin.CFrame
+            end
+        end
     end
-  end	
+
+    HumanoidRootPart.CFrame = currentCFrame
 end
-end
-end)
+
+-- Continuously collect coins while the player is in the game
+while wait(1) do
+    collectCoins()
 end
