@@ -1,4 +1,4 @@
-_G.HeadSize = 20
+_G.HeadSize = 10
 local enemies = workspace.enemies
 while wait() do
   for _,v in next, enemies:GetChildren() do
